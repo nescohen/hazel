@@ -187,7 +187,6 @@ instance Exprable RepoType where
     expr e = stringE $ show e
 
 instance Exprable BuildType where
-    expr (UnknownBuildType s) = stringE s
     expr e = stringE $ show e
 
 instance Exprable RepoKind where
