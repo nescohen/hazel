@@ -11,7 +11,7 @@
 
 module Main (main) where
 
-import Distribution.PackageDescription.Parse
+import Distribution.PackageDescription.Parsec
     (readGenericPackageDescription, parseHookedBuildInfo, ParseResult(..))
 import Distribution.Text (display, simpleParse)
 import Distribution.Verbosity (normal)
