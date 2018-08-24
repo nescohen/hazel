@@ -11,6 +11,7 @@
 
 module Main (main) where
 
+import Prelude hiding ((<>))
 import Distribution.PackageDescription.Parse
     (readGenericPackageDescription, parseHookedBuildInfo, ParseResult(..))
 import Distribution.Text (display, simpleParse)
