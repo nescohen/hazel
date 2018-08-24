@@ -11,6 +11,7 @@ module Skylark
     , renderExpr
     ) where
 
+import Prelude hiding((<>))
 import Text.PrettyPrint
     ( Doc
     , (<>)
