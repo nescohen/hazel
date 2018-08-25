@@ -12,7 +12,7 @@
 module Main (main) where
 
 import Distribution.PackageDescription.Parsec
-    (readGenericPackageDescription, parseHookedBuildInfo, runParseResult, ParseResult(..))
+    (readGenericPackageDescription, parseHookedBuildInfo, runParseResult)
 import Distribution.Text (display, simpleParse)
 import Distribution.Verbosity (normal)
 import System.Environment (getArgs)
