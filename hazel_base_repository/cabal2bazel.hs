@@ -12,13 +12,14 @@
 module Main (main) where
 
 import Distribution.PackageDescription.Parsec
-    (readGenericPackageDescription, parseHookedBuildInfo, ParseResult(..))
+    (readGenericPackageDescription, parseHookedBuildInfo, runParseResult, ParseResult(..))
 import Distribution.Text (display, simpleParse)
 import Distribution.Verbosity (normal)
 import System.Environment (getArgs)
 import System.FilePath ((<.>))
 import System.Process (callProcess)
 
+import qualified Data.ByteString as B
 import qualified Data.Map.Strict as Map
 import qualified Distribution.Package as P
 import qualified Distribution.PackageDescription as P
@@ -47,14 +48,14 @@ parseFlags = \case
   _ -> Map.empty
 
 maybeConfigure :: P.PackageDescription -> IO P.PackageDescription
-maybeConfigure desc = case P.buildType desc of
+maybeConfigure desc = case P.buildTypeRaw desc of
     Just P.Configure -> do
         callProcess "./configure" []
         let buildInfoFile = display (P.packageName desc) <.> "buildinfo"
         buildInfoExists <- Directory.doesFileExist buildInfoFile
         if buildInfoExists
           then do
-              hookedBIParse <- snd $ runParseResult (parseHookedBuildInfo <$> readFile buildInfoFile)
+              hookedBIParse <- snd $ runParseResult (parseHookedBuildInfo <$> B.readFile buildInfoFile)
               case hookedBIParse of
                   Left  _        -> error $ "Error (A lazy programmer didn't want to go through a list so now you have no error message) reading buildinfo" ++ show buildInfoFile
                   Right hookedBI -> return $ P.updatePackageDescription hookedBI desc
