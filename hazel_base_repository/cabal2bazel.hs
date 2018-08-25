@@ -55,7 +55,7 @@ maybeConfigure desc = case P.buildTypeRaw desc of
         buildInfoExists <- Directory.doesFileExist buildInfoFile
         if buildInfoExists
           then do
-              hookedBIParse <- snd $ runParseResult (parseHookedBuildInfo <$> B.readFile buildInfoFile)
+              hookedBIParse <- snd $ runParseResult . parseHookedBuildInfo <$> B.readFile buildInfoFile)
               case hookedBIParse of
                   Left  _        -> error $ "Error (A lazy programmer didn't want to go through a list so now you have no error message) reading buildinfo" ++ show buildInfoFile
                   Right hookedBI -> return $ P.updatePackageDescription hookedBI desc
